@@ -11,7 +11,7 @@ let count = 0;
 
 function updateCounter() {
   count += 1;
-  $("#count").text(`${count} clicks on the button`);
+  $("#count").text(`${count.toString()} clicks on the button`);
 }
 
-$("button").on("click", _.debounce(updateCounter, 1000));
+$("button").on("click", _.debounce(updateCounter, 500));
