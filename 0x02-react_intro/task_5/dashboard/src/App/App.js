@@ -1,7 +1,7 @@
-import logo from "./logo.PNG";
+import logo from "../assets/logo.PNG";
 import React from "react";
 import "./App.css";
-import { getFooterCopy, getFullYear } from "./utils";
+import { getFooterCopy, getFullYear } from "../utils/utils";
 
 function App() {
   return (

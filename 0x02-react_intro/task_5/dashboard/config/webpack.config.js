@@ -1,30 +1,36 @@
 const path = require("path");
-const webpack = require("webpack");
 const HTMLWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   mode: "development",
   entry: "./src/index.js",
   output: {
-    path: path.resolve(__dirname, "./dist"),
+    path: path.resolve(__dirname, "../dist"),
     filename: "bundle.js",
   },
   devtool: "inline-source-map",
 
   devServer: {
     hot: true,
-    contentBase: path.resolve("./dist"),
+    // contentBase: path.resolve("./dist"),
     compress: true,
     port: 8564,
     static: "./dist",
+    open: true,
   },
 
   plugins: [
     new HTMLWebpackPlugin({
-      template: "../dist/index.html",
-      filename: "index.html",
+      template: "./src/index.html",
     }),
   ],
+
+  resolve: {
+    alias: {
+      components: path.resolve(__dirname, "./src"),
+    },
+    extensions: [".js", ".jsx"],
+  },
 
   module: {
     rules: [
@@ -40,7 +46,7 @@ module.exports = {
       },
 
       {
-        test: /\.(gif|png|jpe?g|svg)$/i,
+        test: /\.gif|png|jpe?g|svg$/i,
         use: [
           "file-loader",
           {
@@ -51,6 +57,17 @@ module.exports = {
             },
           },
         ],
+      },
+
+      {
+        test: /\.m?js$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env"],
+          },
+        },
       },
     ],
   },
