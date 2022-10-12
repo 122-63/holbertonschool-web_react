@@ -7,6 +7,8 @@ import Footer from "../Footer/Footer";
 import PropTypes from "prop-types";
 import CourseList from "../CourseList/CourseList";
 import { getLatestNotification } from "../utils/utils";
+import BodySectionWithMarginBottom from "../BodySection/BodySectionWithMarginBottom";
+import BodySection from "../BodySection/BodySection";
 
 const listCourses = [
   { id: 1, name: "ES6", credit: 60 },
@@ -23,7 +25,6 @@ const listNotifications = [
 class App extends Component {
   constructor(props) {
     super(props);
-    this.control = false;
     this.hanleKeyPress = this.handleKeyPress.bind(this);
   }
 
@@ -36,15 +37,15 @@ class App extends Component {
   }
 
   handleKeyPress(event) {
-    if (event.keyCode === 17) this.control = true;
-    if (event.keyCode === 72 && this.control) {
+    if (event.ctrlKey && e.key === "h") {
+      event.preventDefault();
       alert("Logging you out");
       this.props.logOut();
     }
   }
 
   render() {
-    const { isLoggedIn } = this.props;
+    const { isLoggedIn, logOut } = this.props;
     return (
       <Fragment>
         <Notification />
@@ -53,8 +54,19 @@ class App extends Component {
         </header>
         <hr />
         <body className="App-body">
-          {!isLoggedIn ? <Login /> : <CourseList listCourses={listCourses} />}
+          {!isLoggedIn ? (
+            <BodySectionWithMarginBottom title="Course list">
+              <CourseList listCourses={listCourses} />
+            </BodySectionWithMarginBottom>
+          ) : (
+            <BodySectionWithMarginBottom title="Log in to continue">
+              <Login />
+            </BodySectionWithMarginBottom>
+          )}
         </body>
+        <BodySection title="News from the School">
+          <p>Lorem Ipsum has been the industry's standard dummy text ever</p>
+        </BodySection>
         <hr />
         <footer className="App-footer">
           <Footer />
